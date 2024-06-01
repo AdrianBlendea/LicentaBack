@@ -1,31 +1,20 @@
 package com.example.programingappapi.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "problem")
+@Table(name = "type")
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class Problem {
-
+public class Type {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
-    
+
     @Column(name = "name", nullable = false)
     private String name;
-
-    @Column(name = "requirment", nullable = false, length = 10000)
-    private String requirment;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    Type type;
 
 }

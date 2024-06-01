@@ -13,7 +13,7 @@ import java.util.List;
 @Component
 public class ProblemMapper {
 
-    ProblemDTO toProblemDTO(Problem problem) {
+    public ProblemDTO toProblemDTO(Problem problem) {
         return ProblemDTO.builder()
                 .id(problem.getId())
                 .requirment(problem.getRequirment())
