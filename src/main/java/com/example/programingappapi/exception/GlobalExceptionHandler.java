@@ -13,4 +13,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseDto> handleNotFoundException(ProblemNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDto(ex.getMessage()));
     }
+
+    @ExceptionHandler(CategoryNotFoundException.class)
+    public ResponseEntity<ResponseDto> handleCategoryNotFoundException(CategoryNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDto(ex.getMessage()));
+    }
 }
