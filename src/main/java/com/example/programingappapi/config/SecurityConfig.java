@@ -37,6 +37,8 @@ public class SecurityConfig {
                         .requestMatchers("/documents/all/noauth/*").permitAll()
                         .requestMatchers("/api/type/all").permitAll()
                         .requestMatchers("/api/problem/type/*").permitAll()
+                        .requestMatchers("/api/register").permitAll()
+                        .requestMatchers("/api/confirm-account*").permitAll()
                         .anyRequest().authenticated())
                 .csrf().disable();
 
