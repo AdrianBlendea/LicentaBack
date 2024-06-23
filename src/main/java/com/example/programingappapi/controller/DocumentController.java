@@ -40,4 +40,12 @@ public class DocumentController {
         return ResponseEntity.ok(documentService.getAllDocumentByType(id));
     }
 
+    @GetMapping("/all/noauth/{id}")
+    public ResponseEntity<List<String>> getAllNamesByType(@PathVariable Long id)
+    {
+        return ResponseEntity.ok(documentService.getAllDocumentNamesByType(id));
+    }
+
+
+
 }

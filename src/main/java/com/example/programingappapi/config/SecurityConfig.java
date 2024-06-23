@@ -32,7 +32,11 @@ public class SecurityConfig {
         http
                 .addFilterAfter(jwtAuthenticationFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/api/login").permitAll()
                         .requestMatchers("/api/categories").permitAll()
+                        .requestMatchers("/documents/all/noauth/*").permitAll()
+                        .requestMatchers("/api/type/all").permitAll()
+                        .requestMatchers("/api/problem/type/*").permitAll()
                         .anyRequest().authenticated())
                 .csrf().disable();
 
