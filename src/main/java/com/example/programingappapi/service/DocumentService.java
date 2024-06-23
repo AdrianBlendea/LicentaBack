@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -49,5 +50,11 @@ public class DocumentService {
 
     public List<DocumentDTO> getAllDocumentByType(Long categoryId) {
         return documentMapper.toDocumentDTOS(documentRepository.findAllByCategoryId(categoryId));
+    }
+
+    public List<String> getAllDocumentNamesByType(Long categoryId) {
+        List<String> documentNames = new ArrayList<>();
+        documentRepository.findAllByCategoryId(categoryId).stream().forEach(t-> documentNames.add(t.getName()));
+        return documentNames;
     }
 }

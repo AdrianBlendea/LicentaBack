@@ -18,4 +18,21 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseDto> handleCategoryNotFoundException(CategoryNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDto(ex.getMessage()));
     }
+    @ExceptionHandler(PasswordAndEmailNotMatchingException.class)
+    public final ResponseEntity<String> handlePasswordAndEmailNotMatchingException(
+            PasswordAndEmailNotMatchingException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public final ResponseEntity<String> handleUserNotFoundException(
+            UserNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(UserNotAdminException.class)
+    public final ResponseEntity<String> handleUserNotAdminException(
+            UserNotAdminException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
+    }
 }
