@@ -20,4 +20,5 @@ public interface UserAccountRepository extends JpaRepository<UserAccount, Long> 
   void deleteUserAccountById(Long id);
 
   ArrayList<UserAccount> findAll();
+
 }

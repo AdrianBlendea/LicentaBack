@@ -15,8 +15,6 @@ public class UserCreateDTO {
 
   private String name;
 
-  private String role;
-
   private String email;
 
   private String password;

@@ -35,4 +35,10 @@ public class GlobalExceptionHandler {
             UserNotAdminException ex) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
     }
+
+    @ExceptionHandler(AccountNotEnabledException.class)
+    public final ResponseEntity<String> handleAccountNotEnabledException(
+           AccountNotEnabledException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
+    }
 }

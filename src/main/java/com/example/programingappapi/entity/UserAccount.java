@@ -39,4 +39,7 @@ public class UserAccount {
   @Column(name = "password", nullable = false)
   private String password;
 
+  @Column(name = "enabled", nullable = false)
+  private boolean enabled;
+
 }
