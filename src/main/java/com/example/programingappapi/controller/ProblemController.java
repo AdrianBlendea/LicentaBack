@@ -16,19 +16,15 @@ public class ProblemController {
 
     private final ProblemService problemService;
 
-    @GetMapping("/all")
-    public ResponseEntity<List<ProblemDTO>> getAllProblems() {
-        return ResponseEntity.ok(problemService.getAllProblems());
-    }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProblemDTO> getProblemById(@PathVariable("id") String id) {
-        return ResponseEntity.ok(problemService.getProblemById(id));
+    public ResponseEntity<ProblemDTO> getProblemById(@PathVariable("id") String id, @RequestParam Long userId) {
+        return ResponseEntity.ok(problemService.getProblemById(id, userId));
     }
 
     @GetMapping("/type/{id}")
-    public ResponseEntity<List<ProblemDTO>> getAllProblemsByType(@PathVariable("id") Long typeId) {
-        return ResponseEntity.ok(problemService.getAllByType(typeId));
+    public ResponseEntity<List<ProblemDTO>> getAllProblemsByType(@PathVariable("id") Long typeId, @RequestParam Long userId) {
+        return ResponseEntity.ok(problemService.getAllByType(typeId, userId));
     }
 
 }

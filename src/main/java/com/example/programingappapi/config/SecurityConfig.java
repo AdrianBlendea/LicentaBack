@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 
 import java.util.Collections;
@@ -32,12 +33,15 @@ public class SecurityConfig {
         http
                 .addFilterAfter(jwtAuthenticationFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(authorize -> authorize
+
                         .requestMatchers("/api/login").permitAll()
                         .requestMatchers("/api/categories").permitAll()
                         .requestMatchers("/documents/all/noauth/*").permitAll()
                         .requestMatchers("/api/type/all").permitAll()
                         .requestMatchers("/api/problem/type/*").permitAll()
                         .requestMatchers("/api/register").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/v2/api-docs/**","/api")
+                        .permitAll()
                         .requestMatchers("/api/confirm-account*").permitAll()
                         .anyRequest().authenticated())
                 .csrf().disable();
@@ -45,5 +49,6 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 
 }

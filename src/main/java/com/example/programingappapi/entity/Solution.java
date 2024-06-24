@@ -1,10 +1,7 @@
 package com.example.programingappapi.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name ="solution")
@@ -12,6 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Solution {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,6 +18,16 @@ public class Solution {
 
     @Column(name = "solution",nullable = false, length = 10000)
     private String solution;
+
+    @ManyToOne
+    Problem problem;
+
+    @ManyToOne
+    UserAccount user;
+
+    @Column(name = "language", nullable = false)
+    String language;
+
 
 
 }

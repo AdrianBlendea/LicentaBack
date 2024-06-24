@@ -16,4 +16,6 @@ public class ProblemDTO {
 
     private String requirment;
 
+    private boolean solved;
+
 }
