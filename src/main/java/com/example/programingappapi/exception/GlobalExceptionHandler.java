@@ -41,4 +41,10 @@ public class GlobalExceptionHandler {
            AccountNotEnabledException ex) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
     }
+
+    @ExceptionHandler(SolutionNotFoundException.class)
+    public final ResponseEntity<String> handleSolutionNotFoundException(
+           SolutionNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
 }

@@ -13,20 +13,18 @@ import java.util.List;
 @Component
 public class ProblemMapper {
 
-    public ProblemDTO toProblemDTO(Problem problem) {
+    public ProblemDTO toProblemDTO(Problem problem, boolean solved) {
         return ProblemDTO.builder()
                 .id(problem.getId())
                 .requirment(problem.getRequirment())
-                .name(problem.getName()).build();
+                .name(problem.getName())
+                .solved(solved)
+                .build();
 
 
     }
 
-    public List<ProblemDTO> toProblemDtos(List<Problem> problems)
-    {   List<ProblemDTO> problemDTOS = new ArrayList<>();
-        problems.stream().forEach(p-> problemDTOS.add(toProblemDTO(p)));
-        return  problemDTOS;
-    }
+
 
 
 }
