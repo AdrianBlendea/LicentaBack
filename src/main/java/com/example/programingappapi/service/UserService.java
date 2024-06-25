@@ -27,6 +27,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -51,72 +52,41 @@ public class UserService {
         return new ResponseEntity<>(userTokenMapper.toUserTokenDTO(userAccount, JwtTokenProvider.generateToken(email)), HttpStatus.OK);
 
     }
+    @Transactional
+    public String setProfilePicture(MultipartFile picture, Long userId) throws IOException {
+        UserAccount userAccount = userAccountRepository.findById(userId)
+                .orElseThrow(()-> new UserNotFoundException("user not found"));
 
-    public ResponseEntity<String> createUser(@NonNull UserCreateDTO userCreateDTO) {
+        userAccount.setProfilePicture(picture.getBytes());
 
-        UserAccount userAccount = UserAccount.builder().name(userCreateDTO.getName())
-                .email(userCreateDTO.getEmail()).password(userCreateDTO.getPassword())
-                .build();
+        return "Profile picture saved sucessfully";
 
 
-        Long userId = userAccountRepository.save(userAccount).getId();
-        System.out.println(userId);
-
-        return new ResponseEntity<>("User created succesfully", HttpStatus.OK);
     }
 
     @Transactional
-    public ResponseEntity<String> deleteUser(@NonNull Long id) {
-        userAccountRepository.deleteUserAccountById(id);
-        try {
-            URL url = new URL(deviceBackendUrl + '/' + id);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+    public byte[] getProfilePicture( Long userId) throws IOException {
+        UserAccount userAccount = userAccountRepository.findById(userId)
+                .orElseThrow(()-> new UserNotFoundException("user not found"));
 
-            // Set the request method to POST
-            connection.setRequestMethod("DELETE");
 
-            // Get the response code
-            int responseCode = connection.getResponseCode();
-            System.out.println("Response Code: " + responseCode);
+        return userAccount.getProfilePicture();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return new ResponseEntity<>("User deleted succesfully", HttpStatus.OK);
+
     }
 
     @Transactional
-    public ResponseEntity<String> updateUser(@NonNull UserUpdateDTO userUpdateDTO, Long id) {
-        UserAccount userAccount = userAccountRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    public String deleteProfilePicture(Long userId) throws IOException {
+        UserAccount userAccount = userAccountRepository.findById(userId)
+                .orElseThrow(()-> new UserNotFoundException("user not found"));
 
-        if (!userUpdateDTO.getName().equals("")) {
-            userAccount.setName(userUpdateDTO.getName());
-        }
-        if (!userUpdateDTO.getEmail().equals("")) {
-            userAccount.setEmail(userUpdateDTO.getEmail());
-        }
+        userAccount.setProfilePicture(null);
 
-        if (userUpdateDTO.getPassword() != null && !userUpdateDTO.getPassword().equals("")) {
-            userAccount.setPassword(userUpdateDTO.getPassword());
-        }
+        return "Profile picture deleted sucessfully";
 
-        if (!userUpdateDTO.getRole().equals("")) {
-            userAccount.setRole(userUpdateDTO.getRole());
-        }
-        return new ResponseEntity<>("User updated succesfully", HttpStatus.OK);
+
     }
 
-    public ResponseEntity<List<UserDTO>> getAllUsers(Long userId) {
-        UserAccount requestUser = userAccountRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
-
-        if (!requestUser.getRole().equals("admin")) {
-            throw new UserNotAdminException("Only admin can acces this data");
-        }
-        return new ResponseEntity<>(userMapper.toUserDTO(userAccountRepository.findAll()),
-                HttpStatus.OK);
-    }
 
 
 }

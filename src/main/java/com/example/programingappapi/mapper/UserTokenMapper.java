@@ -12,6 +12,7 @@ public class UserTokenMapper {
 
     public UserTokenDTO toUserTokenDTO(UserAccount userAccount, String token) {
         return UserTokenDTO.builder().id(userAccount.getId()).role(userAccount.getRole())
-                .email(userAccount.getEmail()).name(userAccount.getName()).token(token).build();
+                .email(userAccount.getEmail()).name(userAccount.getName()).token(token)
+                .build();
     }
 }
