@@ -1,5 +1,6 @@
 package com.example.programingappapi.controller;
 
+import com.example.programingappapi.dto.ProblemCreateDTO;
 import com.example.programingappapi.dto.ProblemDTO;
 import com.example.programingappapi.service.ProblemService;
 import lombok.AllArgsConstructor;
@@ -26,5 +27,18 @@ public class ProblemController {
     public ResponseEntity<List<ProblemDTO>> getAllProblemsByType(@PathVariable("id") Long typeId, @RequestParam Long userId) {
         return ResponseEntity.ok(problemService.getAllByType(typeId, userId));
     }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteProblem(@RequestParam("problemId")Long problemId)
+    {
+        return ResponseEntity.ok(problemService.deleteProblem(problemId));
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<String> createProblem (@RequestBody ProblemCreateDTO problemCreateDTO)
+    {
+        return ResponseEntity.ok(problemService.createProblem(problemCreateDTO));
+    }
+
 
 }

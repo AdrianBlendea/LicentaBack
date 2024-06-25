@@ -49,7 +49,7 @@ public class UserService {
         if (!userAccount.isEnabled()) {
             throw new AccountNotEnabledException("Your account is not enabled yet please check the confirmation email we have send");
         }
-        return new ResponseEntity<>(userTokenMapper.toUserTokenDTO(userAccount, JwtTokenProvider.generateToken(email)), HttpStatus.OK);
+        return new ResponseEntity<>(userTokenMapper.toUserTokenDTO(userAccount, JwtTokenProvider.generateToken(email,List.of(userAccount.getRole()))), HttpStatus.OK);
 
     }
     @Transactional
