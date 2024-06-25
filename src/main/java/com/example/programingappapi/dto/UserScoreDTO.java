@@ -7,15 +7,13 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserTokenDTO {
+public class UserScoreDTO {
+
     private String name;
 
-    private String role;
+    private Long score;
 
     private String email;
 
-    private Long id;
-
-    private String token;
-
+    private byte[] profilePicture;
 }
