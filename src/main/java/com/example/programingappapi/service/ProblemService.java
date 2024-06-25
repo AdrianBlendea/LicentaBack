@@ -1,15 +1,15 @@
 package com.example.programingappapi.service;
 
+import com.example.programingappapi.dto.ProblemCreateDTO;
 import com.example.programingappapi.dto.ProblemDTO;
-import com.example.programingappapi.entity.Problem;
-import com.example.programingappapi.entity.Solution;
-import com.example.programingappapi.entity.UserAccount;
+import com.example.programingappapi.entity.*;
 import com.example.programingappapi.exception.ProblemNotFoundException;
+import com.example.programingappapi.exception.TypeNotFoundException;
 import com.example.programingappapi.exception.UserNotFoundException;
 import com.example.programingappapi.mapper.ProblemMapper;
-import com.example.programingappapi.repository.ProblemRepository;
-import com.example.programingappapi.repository.SolutionRepository;
-import com.example.programingappapi.repository.UserAccountRepository;
+import com.example.programingappapi.mapper.TestCaseMapper;
+import com.example.programingappapi.repository.*;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +27,12 @@ public class ProblemService {
     private final SolutionRepository solutionRepository;
 
     private final UserAccountRepository userAccountRepository;
+
+    private final TypeRepository typeRepository;
+
+    private final TestCaseMapper testCaseMapper;
+
+    private final TestCaseRepository testCaseRepository;
 
 
     public ProblemDTO getProblemById(String id, Long userId) {
@@ -59,4 +65,36 @@ public class ProblemService {
         }
         return problemDTOS;
     }
+
+    @Transactional
+    public String deleteProblem(Long problemId)
+    {
+        problemRepository.deleteById(problemId);
+        return "Deleted problem succesfully";
+    }
+
+    @Transactional
+    public String createProblem(ProblemCreateDTO problemCreateDTO)
+    {
+        Type type = typeRepository.findById(problemCreateDTO.getTypeId())
+                .orElseThrow(()-> new TypeNotFoundException("Type not found"));
+
+       Problem problemToSave = Problem.builder()
+               .name(problemCreateDTO.getName())
+               .type(type)
+               .requirment(problemCreateDTO.getRequirement())
+               .build();
+
+       Problem savedProblem = problemRepository.save(problemToSave);
+
+       problemCreateDTO.getTestList().forEach(ts ->{
+           TestCase testcaseToSave = testCaseMapper.createTestCase(ts, savedProblem);
+           testCaseRepository.save(testcaseToSave);
+
+       });
+
+        return "Problem saved succesfully";
+
+    }
+
 }

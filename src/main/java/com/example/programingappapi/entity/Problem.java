@@ -1,10 +1,9 @@
 package com.example.programingappapi.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "problem")
@@ -12,6 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Problem {
 
     @Id
@@ -27,5 +27,11 @@ public class Problem {
 
     @ManyToOne(fetch = FetchType.LAZY)
     Type type;
+
+    @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<TestCase> testCaseList;
+
+    @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Solution> solutionList;
 
 }

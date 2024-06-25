@@ -47,5 +47,10 @@ public class DocumentController {
     }
 
 
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteDocument(@RequestParam("documentId")Long documentId)
+    {
+        return ResponseEntity.ok(documentService.deleteDocument(documentId));
+    }
 
 }

@@ -41,8 +41,11 @@ public class SecurityConfig {
                         .requestMatchers("/api/problem/type/*").permitAll()
                         .requestMatchers("/api/register").permitAll()
                         .requestMatchers("/statistics/leaderboard").permitAll()
+                        .requestMatchers("/statistics/leaderboard").permitAll()
+                        .requestMatchers("/api/problem/delete","/documents/delete").hasAuthority("admin")
                         .requestMatchers("/v3/api-docs/**", "/v2/api-docs/**","/api")
                         .permitAll()
+
                         .requestMatchers("/api/confirm-account*").permitAll()
                         .anyRequest().authenticated())
                 .csrf().disable();

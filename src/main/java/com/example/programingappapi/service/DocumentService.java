@@ -6,6 +6,7 @@ import com.example.programingappapi.exception.CategoryNotFoundException;
 import com.example.programingappapi.mapper.DocumentMapper;
 import com.example.programingappapi.repository.CategoryRepository;
 import com.example.programingappapi.repository.DocumentRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -57,4 +58,13 @@ public class DocumentService {
         documentRepository.findAllByCategoryId(categoryId).stream().forEach(t-> documentNames.add(t.getName()));
         return documentNames;
     }
+
+    @Transactional
+    public String deleteDocument(Long documentId)
+    {
+        documentRepository.deleteById(documentId);
+        return "document deleted succesfully";
+    }
+
+
 }
