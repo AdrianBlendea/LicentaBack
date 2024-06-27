@@ -53,4 +53,10 @@ public class GlobalExceptionHandler {
             TypeNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
+
+    @ExceptionHandler(NotEnoughSolutionsForReportException.class)
+    public final ResponseEntity<String> handleNotEnoughSolutionForReportException(
+            NotEnoughSolutionsForReportException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
 }
