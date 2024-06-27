@@ -7,6 +7,7 @@ import com.example.programingappapi.exception.UserNotFoundException;
 import com.example.programingappapi.mapper.UserMapper;
 import com.example.programingappapi.repository.SolutionRepository;
 import com.example.programingappapi.repository.UserAccountRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ public class StatisticsService {
     private final SolutionRepository solutionRepository;
     private final UserMapper userMapper;
 
+    @Transactional
     public int getNumberOfProblems(Long userId)
     {
         UserAccount user = userAccountRepository.findById(userId).orElseThrow(()->new UserNotFoundException("User not found"));

@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
 
 @Entity
 @Getter
@@ -37,6 +38,7 @@ public class UserAccount {
   @Column(name = "enabled", nullable = false)
   private boolean enabled;
 
+  @Basic(fetch = FetchType.LAZY)
   @Lob
   @Column(name = "profile_picture")
   private byte[] profilePicture;

@@ -24,6 +24,7 @@ public class DocumentService {
     private final DocumentMapper documentMapper;
     private final CategoryRepository categoryRepository;
 
+    @Transactional
     public Long uploadDocument(MultipartFile file, Long categoryId) {
         try {
             Document document = new Document();
@@ -36,7 +37,7 @@ public class DocumentService {
             throw new RuntimeException("Failed to upload document", e);
         }
     }
-
+    @Transactional
     public ResponseEntity<byte[]> getDocument(Long id) {
         Document document = documentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Document not found with id: " + id));
@@ -44,13 +45,16 @@ public class DocumentService {
                 .header("Content-Disposition", "attachment; filename=\"" + document.getName() + "\"")
                 .body(document.getContent());
     }
-
+    @Transactional
     public List<DocumentDTO> getAllDocuments() {
         return documentMapper.toDocumentDTOS(documentRepository.findAll());
     }
 
+    @Transactional
     public List<DocumentDTO> getAllDocumentByType(Long categoryId) {
-        return documentMapper.toDocumentDTOS(documentRepository.findAllByCategoryId(categoryId));
+        List<DocumentDTO> documentDTOS = documentMapper.toDocumentDTOS(documentRepository.findAllByCategoryId(categoryId));
+        documentDTOS.forEach(d-> d.setContent(null));
+        return  documentDTOS;
     }
 
     public List<String> getAllDocumentNamesByType(Long categoryId) {

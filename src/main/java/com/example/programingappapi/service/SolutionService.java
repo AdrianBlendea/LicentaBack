@@ -26,6 +26,7 @@ public class SolutionService {
     private final SolutionMapper solutionMapper;
     private final PlagiarismService plagiarismService;
 
+    @Transactional
     public String submitSolution(SolutionDTO solutionDTO) {
         Problem problem = problemRepository.findById(solutionDTO.getProblemId())
                 .orElseThrow(()-> new ProblemNotFoundException("Problem can't pe found"));
@@ -43,7 +44,7 @@ public class SolutionService {
         return "Solution submited succesfully";
 
     }
-
+    @Transactional
     public SolutionDTO getSolutionByUser(Long userId, Long problemId)
     {
         UserAccount userAccount = userAccountRepository.findById(userId).
@@ -69,7 +70,7 @@ public class SolutionService {
 
         return "Solution deleted succesfully";
     }
-
+    @Transactional
     public Long getSolutionCountForProblem(Long problemId, String language)
     {
         Problem problem = problemRepository.findById(problemId).orElseThrow(() -> new ProblemNotFoundException("Problem not found"));

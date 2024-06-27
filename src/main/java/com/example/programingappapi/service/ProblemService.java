@@ -36,6 +36,7 @@ public class ProblemService {
 
     private final PlagiarismService plagiarismService;
 
+    @Transactional
     public ProblemDTO getProblemById(String id, Long userId) {
         Problem problem = problemRepository.findById(Long.parseLong(id))
                 .orElseThrow(() -> new ProblemNotFoundException("Problem with given id not found"));
@@ -50,7 +51,7 @@ public class ProblemService {
         return problemDTO;
 
     }
-
+    @Transactional
     public List<ProblemDTO> getAllByType(Long typeId, Long userId) {
         List<Problem> problems = problemRepository.findAllByTypeId(typeId);
         UserAccount userAccount = userAccountRepository.findById(userId).

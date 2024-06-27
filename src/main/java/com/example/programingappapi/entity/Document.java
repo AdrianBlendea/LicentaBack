@@ -19,6 +19,7 @@ public class Document {
 
     private String name;
 
+    @Lob
     @Column(length = Integer.MAX_VALUE)
     private byte[] content;
 
