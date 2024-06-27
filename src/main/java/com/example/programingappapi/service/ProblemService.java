@@ -34,6 +34,7 @@ public class ProblemService {
 
     private final TestCaseRepository testCaseRepository;
 
+    private final PlagiarismService plagiarismService;
 
     public ProblemDTO getProblemById(String id, Long userId) {
         Problem problem = problemRepository.findById(Long.parseLong(id))
@@ -93,6 +94,7 @@ public class ProblemService {
 
        });
 
+       plagiarismService.createNewFolderForProblem(savedProblem);
         return "Problem saved succesfully";
 
     }

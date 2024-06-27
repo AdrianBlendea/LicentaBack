@@ -31,4 +31,10 @@ public class SolutionController {
     {
         return ResponseEntity.ok(solutionService.deleteSolutionByUser(userId,problemId));
     }
+
+    @GetMapping("/solutionCount")
+    public ResponseEntity<Long> getSolutionCount(@RequestParam("problemId")Long problemId, @RequestParam("solutionLanguage") String solutionLanguage)
+    {
+        return ResponseEntity.ok(solutionService.getSolutionCountForProblem(problemId, solutionLanguage));
+    }
 }

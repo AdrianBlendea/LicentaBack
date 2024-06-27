@@ -24,6 +24,7 @@ public class SolutionService {
     private final ProblemRepository problemRepository;
     private final SolutionRepository solutionRepository;
     private final SolutionMapper solutionMapper;
+    private final PlagiarismService plagiarismService;
 
     public String submitSolution(SolutionDTO solutionDTO) {
         Problem problem = problemRepository.findById(solutionDTO.getProblemId())
@@ -35,6 +36,9 @@ public class SolutionService {
         Solution solution = Solution.builder().user(user).problem(problem).language(solutionDTO.getLanguage())
                 .solution(solutionDTO.getSolution()).build();
         solutionRepository.save(solution);
+        plagiarismService.createNewFileForSubmission(solution);
+
+
 
         return "Solution submited succesfully";
 
@@ -64,5 +68,12 @@ public class SolutionService {
         solutionRepository.deleteAllByUserAndProblem(userAccount, problem);
 
         return "Solution deleted succesfully";
+    }
+
+    public Long getSolutionCountForProblem(Long problemId, String language)
+    {
+        Problem problem = problemRepository.findById(problemId).orElseThrow(() -> new ProblemNotFoundException("Problem not found"));
+
+        return problem.getSolutionList().stream().filter(sol-> sol.getLanguage().equals(language)).count();
     }
 }
