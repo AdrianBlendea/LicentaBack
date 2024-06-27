@@ -58,29 +58,6 @@ public class DocumentController {
         return ResponseEntity.ok(documentService.deleteDocument(documentId));
     }
 
-    @GetMapping("/download-zip")
-    public ResponseEntity<FileSystemResource> downloadZip() {
-        // Define the path to the existing zip file
-        String zipFilePath = "C:/licentaback/plagiarism/rez/archive.zip";
-        File zipFile = new File(zipFilePath);
 
-        if (!zipFile.exists()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        // Create a FileSystemResource from the file
-        FileSystemResource resource = new FileSystemResource(zipFile);
-
-        // Set the headers and content type
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + zipFile.getName());
-        headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
-
-        // Return the file as a resource in the response entity
-        return ResponseEntity.ok()
-                .headers(headers)
-                .contentLength(zipFile.length())
-                .body(resource);
-    }
 
 }
