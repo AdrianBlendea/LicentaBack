@@ -19,14 +19,14 @@ public class Solution {
     @Column(name = "solution",nullable = false, length = 10000)
     private String solution;
 
-    @ManyToOne
-    Problem problem;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Problem problem;
 
     @ManyToOne
-    UserAccount user;
+    private UserAccount user;
 
     @Column(name = "language", nullable = false)
-    String language;
+    private String language;
 
 
 

@@ -22,5 +22,5 @@ public class TestCase {
     private String expectedOutput;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    Problem problem;
+    private Problem problem;
 }

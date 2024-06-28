@@ -8,30 +8,39 @@ import com.example.programingappapi.repository.UserAccountRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
 @Service
+@AllArgsConstructor
 public class RegistrationService {
 
-    @Autowired
-    private UserAccountRepository userAccountRepository;
 
-    @Autowired
-    private ConfirmationTokenRepository confirmationTokenRepository;
+    private final UserAccountRepository userAccountRepository;
 
-    @Autowired
-    private EmailService emailService;
+
+    private final ConfirmationTokenRepository confirmationTokenRepository;
+
+
+    private final EmailService emailService;
+
+    private final PasswordEncoder passwordEncoder ;
+
 
     private final String SECRET_KEY = "7ZOkGijejRONJNeo8jQRJJrrRrIULBXpOfbXvkx4aYrfLczomfyWH8LGcvaPdsX4SG6saCWuZbhYEvovqoErQA==";
 
     public void registerUser(UserCreateDTO userCreateDTO) {
+
+        String encodedPassword = passwordEncoder.encode(userCreateDTO.getPassword());
         UserAccount  userAccount = UserAccount.builder().name(userCreateDTO.getName()).email(userCreateDTO.getEmail())
-                .password(userCreateDTO.getPassword()).role("user").enabled(false).build();
+                .password(encodedPassword).role("user").enabled(false).build();
         userAccountRepository.save(userAccount);
 
         String token = Jwts.builder()

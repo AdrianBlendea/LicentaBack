@@ -26,7 +26,7 @@ public class Problem {
     private String requirment;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    Type type;
+     private Type type;
 
     @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL, orphanRemoval = true)
     List<TestCase> testCaseList;

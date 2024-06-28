@@ -26,6 +26,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,13 +39,15 @@ public class UserService {
     private final UserAccountRepository userAccountRepository;
     private final UserMapper userMapper;
     private final UserTokenMapper userTokenMapper;
+    private final PasswordEncoder passwordEncoder;
+
 
     @Transactional
     public ResponseEntity<UserTokenDTO> login(String email, String password) {
         UserAccount userAccount = userAccountRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
 
-        if (!userAccount.getPassword().equals(password)) {
+        if (!passwordEncoder.matches(password, userAccount.getPassword())) {
             throw new PasswordAndEmailNotMatchingException("Password and username dont match");
         }
         if (!userAccount.isEnabled()) {
