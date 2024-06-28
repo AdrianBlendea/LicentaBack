@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -53,6 +54,9 @@ public class ProblemService {
     }
     @Transactional
     public List<ProblemDTO> getAllByType(Long typeId, Long userId) {
+        if(userId == null){
+            return problemRepository.findAllByTypeId(typeId).stream().map(p->problemMapper.toProblemDTO(p, false)).collect(Collectors.toList());
+        }
         List<Problem> problems = problemRepository.findAllByTypeId(typeId);
         UserAccount userAccount = userAccountRepository.findById(userId).
                 orElseThrow(() -> new UserNotFoundException("User not found"));

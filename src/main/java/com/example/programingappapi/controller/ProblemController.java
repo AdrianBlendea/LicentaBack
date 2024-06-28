@@ -3,6 +3,7 @@ package com.example.programingappapi.controller;
 import com.example.programingappapi.dto.ProblemCreateDTO;
 import com.example.programingappapi.dto.ProblemDTO;
 import com.example.programingappapi.service.ProblemService;
+import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,9 @@ public class ProblemController {
     }
 
     @GetMapping("/type/{id}")
-    public ResponseEntity<List<ProblemDTO>> getAllProblemsByType(@PathVariable("id") Long typeId, @RequestParam Long userId) {
+    public ResponseEntity<List<ProblemDTO>> getAllProblemsByType(@PathVariable("id") Long typeId,
+                                                                 @RequestParam
+                                                                 @Nullable Long userId) {
         return ResponseEntity.ok(problemService.getAllByType(typeId, userId));
     }
 

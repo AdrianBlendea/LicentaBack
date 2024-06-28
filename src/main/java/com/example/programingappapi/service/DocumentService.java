@@ -56,7 +56,7 @@ public class DocumentService {
         documentDTOS.forEach(d-> d.setContent(null));
         return  documentDTOS;
     }
-
+    @Transactional
     public List<String> getAllDocumentNamesByType(Long categoryId) {
         List<String> documentNames = new ArrayList<>();
         documentRepository.findAllByCategoryId(categoryId).stream().forEach(t-> documentNames.add(t.getName()));
