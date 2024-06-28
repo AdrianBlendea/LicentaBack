@@ -34,4 +34,7 @@ public class Problem {
     @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Solution> solutionList;
 
+    @Column(name = "procentToPass", nullable = false)
+    private Long procentToPass;
+
 }

@@ -24,6 +24,8 @@ public class ProblemCreateDTO {
 
     Long typeId;
 
+    private Long procentToPass;
+
 
     List<TestCaseCreateDTO> testList;
 }

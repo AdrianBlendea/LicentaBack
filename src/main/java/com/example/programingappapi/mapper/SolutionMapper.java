@@ -15,8 +15,9 @@ public class SolutionMapper {
                 builder()
                 .solution(s.getSolution())
                 .language(s.getLanguage())
-                .problemId(s.getProblem().getId()).
-                userId(s.getUser().getId()).build();
+                .problemId(s.getProblem().getId())
+                .procentScored(s.getProcentScored())
+                .userId(s.getUser().getId()).build();
     }
 
 }

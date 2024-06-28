@@ -2,6 +2,7 @@ package com.example.programingappapi.service;
 
 import com.example.programingappapi.dto.LeaderboardPlaceDTO;
 import com.example.programingappapi.dto.UserScoreDTO;
+import com.example.programingappapi.entity.Solution;
 import com.example.programingappapi.entity.UserAccount;
 import com.example.programingappapi.exception.UserNotFoundException;
 import com.example.programingappapi.mapper.UserMapper;
@@ -39,7 +40,9 @@ public class StatisticsService {
         Map<UserAccount, Long> userSolutionCounts = userAccounts.stream()
                 .collect(Collectors.toMap(
                         userAccount -> userAccount,
-                        userAccount -> (long) solutionRepository.findAllByUser(userAccount).size()
+                        userAccount -> solutionRepository.findAllByUser(userAccount).stream()
+                                .mapToLong(Solution::getProcentScored)
+                                .sum()
                 ));
 
         List<UserAccount> sortedUserAccounts = userSolutionCounts.entrySet().stream()
@@ -60,7 +63,9 @@ public class StatisticsService {
         Map<UserAccount, Long> userSolutionCounts = userAccounts.stream()
                 .collect(Collectors.toMap(
                         userAccount -> userAccount,
-                        userAccount -> (long) solutionRepository.findAllByUser(userAccount).size()
+                        userAccount -> solutionRepository.findAllByUser(userAccount).stream()
+                                .mapToLong(Solution::getProcentScored)
+                                .sum()
                 ));
         Stream<Map.Entry<UserAccount, Long>> entryStream = userSolutionCounts.entrySet().stream();
 
