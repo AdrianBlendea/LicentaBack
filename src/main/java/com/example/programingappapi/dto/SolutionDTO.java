@@ -16,4 +16,6 @@ public class SolutionDTO {
     Long userId;
 
     String language;
+
+    Long procentScored;
 }

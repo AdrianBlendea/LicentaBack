@@ -18,4 +18,6 @@ public class ProblemDTO {
 
     private boolean solved;
 
+    private Long procentToPass;
+
 }

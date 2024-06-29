@@ -19,6 +19,7 @@ public class ProblemMapper {
                 .requirment(problem.getRequirment())
                 .name(problem.getName())
                 .solved(solved)
+                .procentToPass(problem.getProcentToPass())
                 .build();
 
 

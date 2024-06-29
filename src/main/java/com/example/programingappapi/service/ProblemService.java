@@ -88,6 +88,7 @@ public class ProblemService {
        Problem problemToSave = Problem.builder()
                .name(problemCreateDTO.getName())
                .type(type)
+               .procentToPass(problemCreateDTO.getProcentToPass())
                .requirment(problemCreateDTO.getRequirement())
                .build();
 

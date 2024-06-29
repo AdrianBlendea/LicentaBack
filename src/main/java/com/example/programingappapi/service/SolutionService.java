@@ -35,7 +35,7 @@ public class SolutionService {
                 .orElseThrow(()-> new UserNotFoundException("User not found"));
 
         Solution solution = Solution.builder().user(user).problem(problem).language(solutionDTO.getLanguage())
-                .solution(solutionDTO.getSolution()).build();
+                .solution(solutionDTO.getSolution()).procentScored(solutionDTO.getProcentScored()).build();
         solutionRepository.save(solution);
         plagiarismService.createNewFileForSubmission(solution);
 

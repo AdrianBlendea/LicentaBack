@@ -28,6 +28,9 @@ public class Solution {
     @Column(name = "language", nullable = false)
     private String language;
 
+    @Column(name = "procentScored", nullable = false)
+    private Long procentScored;
+
 
 
 }
