@@ -72,7 +72,8 @@ public class RegistrationService {
     }
     @Transactional
     public boolean confirmUser(String token) {
-        ConfirmationToken confirmationToken = confirmationTokenRepository.findByToken(token);
+        ConfirmationToken confirmationToken = confirmationTokenRepository
+                .findByToken(token);
 
         if (confirmationToken != null && confirmationToken.getUserAccount() != null) {
 

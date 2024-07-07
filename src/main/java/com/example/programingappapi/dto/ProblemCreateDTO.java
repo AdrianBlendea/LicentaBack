@@ -8,15 +8,13 @@ import jakarta.persistence.ManyToOne;
 import java.util.List;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Builder
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class ProblemCreateDTO {
     @NotNull
     private String name;

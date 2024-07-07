@@ -31,6 +31,6 @@ public class Solution {
     @Column(name = "procentScored", nullable = false)
     private Long procentScored;
 
-
-
 }
+
+

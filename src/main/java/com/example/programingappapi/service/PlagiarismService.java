@@ -34,8 +34,7 @@ public class PlagiarismService {
     private final String folder = "C:/licentaback/plagiarism";
 
 
-    public File getPlagiarismReport(Long problemId, String language)
-    {
+    public File getPlagiarismReport(Long problemId, String language) {
         File solutionFolder = new File(folder + "/" + problemId + "/" + language);
 
         if (solutionFolder.exists() && solutionFolder.isDirectory()) {
@@ -46,21 +45,20 @@ public class PlagiarismService {
             if (files == null || files.length < 2) {
                 throw new NotEnoughSolutionsForReportException("not enough solutions to create report");
             }
-        }
-        else{
+        } else {
             throw new NotEnoughSolutionsForReportException("solutions folder not existent");
         }
 
 
-        switch (language){
-            case
-                "python": return createPythonProblemReport(problemId);
+        switch (language) {
+            case "python":
+                return createPythonProblemReport(problemId);
 
-            case
-                    "java":return createJAVAProblemReport(problemId);
+            case "java":
+                return createJAVAProblemReport(problemId);
 
-            case
-                "cpp": return createCProblemReport(problemId);
+            case "cpp":
+                return createCProblemReport(problemId);
 
             default:
                 return null;
@@ -72,43 +70,45 @@ public class PlagiarismService {
 
     public File createCProblemReport(Long problemId) {
         Language language = new CPPLanguage();
-        Set<File> submissionDirectories = Set.of(new File(folder + "/" + problemId +"/cpp"));
+        Set<File> submissionDirectories = Set.of(
+                new File(folder + "/" + problemId + "/cpp"));
         File baseCode = new File(folder + "/basecode.cpp");
-        JPlagOptions options = new JPlagOptions(language, submissionDirectories, Set.of()).withBaseCodeSubmissionDirectory(baseCode).withMinimumTokenMatch(1);
-
+        JPlagOptions options = new JPlagOptions(language,
+                submissionDirectories, Set.of())
+                .withBaseCodeSubmissionDirectory(baseCode)
+                .withMinimumTokenMatch(1);
         try {
             JPlagResult result = JPlag.run(options);
 
-            File outputDir = new File(folder + "/" + problemId + "/cpp" + problemId +".zip");
+            File outputDir = new File(folder + "/" + problemId + "/cpp"
+                    + problemId + ".zip");
 
-            ReportObjectFactory reportObjectFactory = new ReportObjectFactory(outputDir);
+            ReportObjectFactory reportObjectFactory =
+                    new ReportObjectFactory(outputDir);
             reportObjectFactory.createAndSaveReport(result);
 
             System.out.println("Report generated successfully!");
             return outputDir;
         } catch (ExitException e) {
             System.err.println("JPlag exit exception: " + e.getMessage());
-            e.printStackTrace(); // Print the stack trace for debugging
+            e.printStackTrace();
         } catch (FileNotFoundException e) {
             System.err.println("File not found exception: " + e.getMessage());
-            e.printStackTrace(); // Print the stack trace for debugging
-        } catch (IOException e) {
-            System.err.println("IO exception: " + e.getMessage());
-            e.printStackTrace(); // Print the stack trace for debugging
+            e.printStackTrace();
         }
         return null;
-    }
+        }
 
     public File createJAVAProblemReport(Long problemId) {
         Language language = new JavaLanguage();
-        Set<File> submissionDirectories = Set.of(new File(folder + "/" + problemId +"/java"));
+        Set<File> submissionDirectories = Set.of(new File(folder + "/" + problemId + "/java"));
         File baseCode = new File(folder + "/basecode.java");
         JPlagOptions options = new JPlagOptions(language, submissionDirectories, Set.of()).withBaseCodeSubmissionDirectory(baseCode).withMinimumTokenMatch(1);
 
         try {
             JPlagResult result = JPlag.run(options);
 
-            File outputDir = new File(folder + "/" + problemId + "/java" + problemId +".zip");
+            File outputDir = new File(folder + "/" + problemId + "/java" + problemId + ".zip");
 
             ReportObjectFactory reportObjectFactory = new ReportObjectFactory(outputDir);
             reportObjectFactory.createAndSaveReport(result);
@@ -120,9 +120,6 @@ public class PlagiarismService {
             e.printStackTrace(); // Print the stack trace for debugging
         } catch (FileNotFoundException e) {
             System.err.println("File not found exception: " + e.getMessage());
-            e.printStackTrace(); // Print the stack trace for debugging
-        } catch (IOException e) {
-            System.err.println("IO exception: " + e.getMessage());
             e.printStackTrace(); // Print the stack trace for debugging
         }
         return null;
@@ -130,7 +127,7 @@ public class PlagiarismService {
 
     public File createPythonProblemReport(Long problemId) {
         Language language = new PythonLanguage();
-        Set<File> submissionDirectories = Set.of(new File(folder + "/" + problemId +"/python"));
+        Set<File> submissionDirectories = Set.of(new File(folder + "/" + problemId + "/python"));
         File baseCode = new File(folder + "/basecode.py");
         JPlagOptions options = new JPlagOptions(language, submissionDirectories, Set.of()).withBaseCodeSubmissionDirectory(baseCode).withMinimumTokenMatch(1);
 
@@ -138,7 +135,7 @@ public class PlagiarismService {
         try {
             JPlagResult result = JPlag.run(options);
 
-            File outputDir = new File(folder + "/" + problemId + "/python" + problemId +".zip");
+            File outputDir = new File(folder + "/" + problemId + "/python" + problemId + ".zip");
 
             ReportObjectFactory reportObjectFactory = new ReportObjectFactory(outputDir);
             reportObjectFactory.createAndSaveReport(result);
@@ -158,8 +155,7 @@ public class PlagiarismService {
         return null;
     }
 
-    public void createNewFolderForProblem(Problem problem)
-    {
+    public void createNewFolderForProblem(Problem problem) {
         Long problemId = problem.getId();
 
         if (problemId == null) {
@@ -167,7 +163,7 @@ public class PlagiarismService {
         }
 
         // Define the base folder path using the problem ID
-        Path baseFolderPath = Paths.get(folder+"/" + problemId);
+        Path baseFolderPath = Paths.get(folder + "/" + problemId);
 
         // Define subfolder paths
         Path javaFolderPath = baseFolderPath.resolve("java");
@@ -201,11 +197,11 @@ public class PlagiarismService {
         } catch (IOException e) {
             System.err.println("Failed to create directories: " + e.getMessage());
             e.printStackTrace();
-        }}
+        }
+    }
 
-    public void createNewFileForSubmission(Solution solution)
-    {
-        String problemFolder = folder +  "/" + solution.getProblem().getId().toString() + "/" + solution.getLanguage();
+    public void createNewFileForSubmission(Solution solution) {
+        String problemFolder = folder + "/" + solution.getProblem().getId().toString() + "/" + solution.getLanguage();
 
         // Create the directory if it doesn't exist
         File directory = new File(problemFolder);
